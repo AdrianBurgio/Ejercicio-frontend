@@ -41,7 +41,7 @@ function App() {
   const [modalInsertar, setModalInsertar]= useState(false);
   const [modalEditar, setModalEditar]= useState(false);
   const [modalEliminar, setModalEliminar]= useState(false);
-  const [artistaSeleccionado, setArtistaSeleccionado]=useState({
+  const [usuarioSeleccionado, setUsuarioSeleccionado]=useState({
     id:"",
     username: "",
     email: "",
@@ -50,7 +50,7 @@ function App() {
 
   const handleChange=e=>{
     const {name, value}=e.target;
-    setArtistaSeleccionado(prevState=>({
+    setUsuarioSeleccionado(prevState=>({
       ...prevState,
       [name]: value
     }));
@@ -66,7 +66,7 @@ function App() {
   }
 
   const peticionPost=async()=>{
-    await axios.post(baseUrl, artistaSeleccionado)
+    await axios.post(baseUrl, usuarioSeleccionado)
     .then(response=>{
       setData(data.concat(response.data));
       abrirCerrarModalInsertar();
@@ -77,14 +77,14 @@ function App() {
 
 
   const peticionPut=async()=>{
-    await axios.put(baseUrl+"/"+artistaSeleccionado.id, artistaSeleccionado)
+    await axios.put(baseUrl+"/"+usuarioSeleccionado.id, usuarioSeleccionado)
     .then(response=>{
       var dataNueva= data;
-      dataNueva.map(artista=>{
-        if(artista.id===artistaSeleccionado.id){
-          artista.username=artistaSeleccionado.username;
-          artista.email=artistaSeleccionado.email;
-          artista.telefono=artistaSeleccionado.telefono;
+      dataNueva.map(usuario=>{
+        if(usuario.id===usuarioSeleccionado.id){
+          usuario.username=usuarioSeleccionado.username;
+          usuario.email=usuarioSeleccionado.email;
+          usuario.telefono=usuarioSeleccionado.telefono;
         }
       });
       setData(dataNueva);
@@ -95,17 +95,17 @@ function App() {
   }
 
   const peticionDelete=async()=>{
-    await axios.delete(baseUrl+"/"+artistaSeleccionado.id)
+    await axios.delete(baseUrl+"/"+usuarioSeleccionado.id)
     .then(response=>{
-      setData(data.filter(artista=>artista.id!==artistaSeleccionado.id));
+      setData(data.filter(usuario=>usuario.id!==usuarioSeleccionado.id));
       abrirCerrarModalEliminar();
     }).catch(error=>{
       console.log(error);
     })
   }
 
-  const seleccionarArtista=(artista, caso)=>{
-    setArtistaSeleccionado(artista);
+  const seleccionarUsuario=(usuario, caso)=>{
+    setUsuarioSeleccionado(usuario);
     (caso==="Editar")?abrirCerrarModalEditar()
     :
     abrirCerrarModalEliminar()
@@ -148,11 +148,11 @@ function App() {
   const bodyEditar=(
     <div className={styles.modal}>
       <h3>Editar Usuario</h3>
-      <TextField className={styles.inputMaterial} label="Nombre de Usuario" name="username" onChange={handleChange} value={artistaSeleccionado&&artistaSeleccionado.username}/>
+      <TextField className={styles.inputMaterial} label="Nombre de Usuario" name="username" onChange={handleChange} value={usuarioSeleccionado&&usuarioSeleccionado.username}/>
       <br />
-      <TextField className={styles.inputMaterial} label="Email" name="email" onChange={handleChange} value={artistaSeleccionado&&artistaSeleccionado.email}/>          
+      <TextField className={styles.inputMaterial} label="Email" name="email" onChange={handleChange} value={usuarioSeleccionado&&usuarioSeleccionado.email}/>          
       <br />
-      <TextField className={styles.inputMaterial} label="Teléfono" name="telefono" onChange={handleChange} value={artistaSeleccionado&&artistaSeleccionado.telefono}/>
+      <TextField className={styles.inputMaterial} label="Teléfono" name="telefono" onChange={handleChange} value={usuarioSeleccionado&&usuarioSeleccionado.telefono}/>
       <br /><br />
       <div align="right">
         <Button color="primary" onClick={()=>peticionPut()}>Actualizar</Button>
@@ -163,7 +163,7 @@ function App() {
 
   const bodyEliminar=(
     <div className={styles.modal}>
-      <p>Estás seguro que deseas eliminar al usuario <b>{artistaSeleccionado && artistaSeleccionado.username}</b>? </p>
+      <p>Estás seguro que deseas eliminar al usuario <b>{usuarioSeleccionado && usuarioSeleccionado.username}</b>? </p>
       <div align="right">
         <Button color="secondary" onClick={()=>peticionDelete()}>Sí</Button>
         <Button onClick={()=>abrirCerrarModalEliminar()}>No</Button>
@@ -191,14 +191,14 @@ function App() {
             tooltip:'Editar usuario',
             iconProps: { color: 'default' },
             //onClick:(event,rowData) =>alert(''+rowData.username)
-            onClick: (event, rowData) => seleccionarArtista(rowData, "Editar")
+            onClick: (event, rowData) => seleccionarUsuario(rowData, "Editar")
           },
           {
             icon:'delete', 
             tooltip:'Eliminar usuario',
             iconProps: { color: 'secondary' },
             //onClick:(event,rowData) =>window.confirm('Desea eliminar el usuario '+rowData.username+'?')
-            onClick: (event, rowData) => seleccionarArtista(rowData, "Eliminar")
+            onClick: (event, rowData) => seleccionarUsuario(rowData, "Eliminar")
           }
         ]}
         options={{
