@@ -5,7 +5,6 @@ import axios from 'axios';
 import {Modal, TextField, Button} from '@material-ui/core';
 import {makeStyles  } from '@material-ui/core/styles';
 
-
 const columnas=[
   {title:'Nombre de usuario',field:'username',type:'string'},
   {title:'Email',field:'email',type:'string'},
@@ -132,27 +131,73 @@ function App() {
   const bodyInsertar=(
     <div className={styles.modal}>
       <h3>Agregar Nuevo Usuario</h3>
-      <TextField className={styles.inputMaterial} label="Nombre de Usuario" name="username" onChange={handleChange}/>
-      <br />
-      <TextField className={styles.inputMaterial} label="Email" name="email" onChange={handleChange}/>          
-      <br />
-      <TextField className={styles.inputMaterial} label="Teléfono" name="telefono" onChange={handleChange}/>
+
+      <TextField 
+      className={styles.inputMaterial} 
+      label="Nombre de Usuario" 
+      name="username"
+      variant="outlined" 
+      required  
+      onChange={handleChange}
+      />
+      <br /><br />
+      <TextField 
+      className={styles.inputMaterial} 
+      label="Email" 
+      name="email" 
+      variant="outlined" 
+      onChange={handleChange}
+      />          
+      <br /><br />
+      <TextField 
+      className={styles.inputMaterial} 
+      label="Teléfono (Solo números [0-9])" 
+      name="telefono" 
+      variant="outlined" 
+      type="number" 
+      onChange={handleChange}
+      />
       <br /><br />
       <div align="right">
         <Button color="primary" onClick={()=>peticionPost()}>Insertar</Button>
         <Button onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
       </div>
+
+
     </div>
   )
 
   const bodyEditar=(
     <div className={styles.modal}>
       <h3>Editar Usuario</h3>
-      <TextField className={styles.inputMaterial} label="Nombre de Usuario" name="username" onChange={handleChange} value={usuarioSeleccionado&&usuarioSeleccionado.username}/>
-      <br />
-      <TextField className={styles.inputMaterial} label="Email" name="email" onChange={handleChange} value={usuarioSeleccionado&&usuarioSeleccionado.email}/>          
-      <br />
-      <TextField className={styles.inputMaterial} label="Teléfono" name="telefono" onChange={handleChange} value={usuarioSeleccionado&&usuarioSeleccionado.telefono}/>
+      <TextField 
+      required  
+      className={styles.inputMaterial} 
+      label="Nombre de Usuario" 
+      name="username" 
+      onChange={handleChange} 
+      value={usuarioSeleccionado&&usuarioSeleccionado.username}
+      variant="outlined" 
+      />
+      <br /><br />
+      <TextField 
+      className={styles.inputMaterial} 
+      label="Email" 
+      name="email" 
+      onChange={handleChange} 
+      value={usuarioSeleccionado&&usuarioSeleccionado.email} 
+      variant="outlined" 
+      />          
+      <br /><br />
+      <TextField 
+      label="Teléfono (Solo números [0-9])" 
+      className={styles.inputMaterial} 
+      label="Teléfono" 
+      name="telefono" 
+      onChange={handleChange} 
+      value={usuarioSeleccionado&&usuarioSeleccionado.telefono} 
+      variant="outlined" 
+      />
       <br /><br />
       <div align="right">
         <Button color="primary" onClick={()=>peticionPut()}>Actualizar</Button>
